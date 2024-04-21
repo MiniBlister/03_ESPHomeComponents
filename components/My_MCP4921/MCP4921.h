@@ -40,6 +40,4 @@ class MCP4921 : public Component, public FloatOutput {
     }
 
 
-
-
 }
