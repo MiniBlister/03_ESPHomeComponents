@@ -45,23 +45,23 @@ public:
     {
         rtsDevice = new SomfyRts(remoteId);
 
-        ESP_LOGD("SomfyCover.h", "Cover %d", index);
+        ////ESP_LOGD("SomfyCover.h", "Cover %d", index);
 
         // This will be called by App.setup()
-        ESP_LOGD("SomfyCover.h", "Starting Device");
+        ////ESP_LOGD("SomfyCover.h", "Starting Device");
         Serial.begin(115200);
         Serial.println("Initialize remote device");
-        ESP_LOGD("SomfyCover.h", "Somfy ESPHome Cover v1.00");
-        ESP_LOGD("SomfyCover.h", "Initialize remote device");
+        ////ESP_LOGD("SomfyCover.h", "Somfy ESPHome Cover v1.00");
+        ////ESP_LOGD("SomfyCover.h", "Initialize remote device");
 
         rtsDevice->init();
 
 
         if (ELECHOUSE_cc1101.getCC1101()) {
-            ESP_LOGD("SomfyCover.h", "Communication established with the CC1101 module");
+            ////ESP_LOGD("SomfyCover.h", "Communication established with the CC1101 module");
         }
         else {
-            ESP_LOGD("SomfyCover.h", "Error: Could not establish communication with the CC1101 module");
+            ////ESP_LOGD("SomfyCover.h", "Error: Could not establish communication with the CC1101 module");
         }
 
         ELECHOUSE_cc1101.Init();
@@ -77,7 +77,7 @@ public:
 
         preferences.remove(path);
 
-        ESP_LOGD("SomfyCover.h", "Deleted remote %i", remoteId);
+        ////ESP_LOGD("SomfyCover.h", "Deleted remote %i", remoteId);
         preferences.end();
     }
 
@@ -95,19 +95,19 @@ public:
     {
         // This will be called every time the user requests a state change.
 
-        ESP_LOGW("SomfyCover.h", "Using remote %d", REMOTE_FIRST_ADDR + index);
-        ESP_LOGW("SomfyCover.h", "Remoteid %d", remoteId);
-        ESP_LOGW("SomfyCover.h", "index %d", index);
+        ////ESP_LOGW("SomfyCover.h", "Using remote %d", REMOTE_FIRST_ADDR + index);
+        ////ESP_LOGW("SomfyCover.h", "Remoteid %d", remoteId);
+        ////ESP_LOGW("SomfyCover.h", "index %d", index);
 
         if (call.get_position().has_value()) {
             float pos = *call.get_position();
             // Write pos (range 0-1) to cover
             // ...
             int ppos = pos * 100;
-            ESP_LOGD("SomfyCover.h", "get_position is: %d", ppos);
+            ////ESP_LOGD("SomfyCover.h", "get_position is: %d", ppos);
 
             if (ppos == 0) {
-                ESP_LOGD("SomfyCover.h", "POS 0");
+                //ESP_LOGD("SomfyCover.h", "POS 0");
                 Serial.println("* Command Down");
                 ELECHOUSE_cc1101.SetTx();
 
@@ -117,7 +117,7 @@ public:
                 pos = 0.01;
             }
             else if (ppos == 100) {
-                ESP_LOGD("SomfyCover.h", "POS 100");
+                //ESP_LOGD("SomfyCover.h", "POS 100");
                 Serial.println("* Command UP");
                 ELECHOUSE_cc1101.SetTx();
 
@@ -128,7 +128,7 @@ public:
             }
             else {
                 // In between position, set it to saved position
-                ESP_LOGD("SomfyCover.h", "POS 50");
+                //ESP_LOGD("SomfyCover.h", "POS 50");
                 Serial.println("* Command MY");
                 ELECHOUSE_cc1101.SetTx();
 
@@ -144,7 +144,7 @@ public:
         }
         else if (call.get_stop()) {
             // User requested cover stop
-            ESP_LOGD("SomfyCover", "get_stop");
+            //ESP_LOGD("SomfyCover", "get_stop");
             ELECHOUSE_cc1101.SetTx();
 
             rtsDevice->sendCommandStop();
@@ -155,18 +155,18 @@ public:
             // Tilt is only for debug/programation
             auto tpos = *call.get_tilt();
             int xpos = tpos * 100;
-            ESP_LOGI("SomfyCover.h", "Command tilt xpos: %d", xpos);
+            //ESP_LOGI("SomfyCover.h", "Command tilt xpos: %d", xpos);
 
             if (xpos == 0)
             {
                 String txt = "Current rolling code is ";
                 txt += rtsDevice->readRemoteRollingCode();
                 txt += ".";
-                ESP_LOGD("SomfyCover.h", txt.c_str());
+                //ESP_LOGD("SomfyCover.h", txt.c_str());
             }
             if (xpos == 11)
             {
-                ESP_LOGD("SomfyCover.h", "program mode");
+                //ESP_LOGD("SomfyCover.h", "program mode");
                 ELECHOUSE_cc1101.SetTx();
 
                 rtsDevice->sendCommandProg();
@@ -176,7 +176,7 @@ public:
             }
             if (xpos == 16)
             {
-                ESP_LOGD("SomfyCover.h", "program mode - grail");
+                //ESP_LOGD("SomfyCover.h", "program mode - grail");
                 ELECHOUSE_cc1101.SetTx();
 
                 rtsDevice->sendCommandProgGrail();
@@ -186,7 +186,7 @@ public:
             }
             if (xpos == 21)
             {
-                ESP_LOGD("SomfyCover.h", "delete file");
+                //ESP_LOGD("SomfyCover.h", "delete file");
                 delete_code();
                 delay(1000);
             }
