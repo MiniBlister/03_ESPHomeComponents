@@ -1,5 +1,5 @@
 #include "SomfyRts.h"
-#include <Preferences.h>
+//#include <Preferences.h>
 
 SomfyRts::SomfyRts(uint32_t remoteID, bool debug)
 {
