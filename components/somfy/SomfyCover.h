@@ -6,7 +6,7 @@
 #include <Arduino.h>
 #include <Preferences.h>
 #include <ELECHOUSE_CC1101_SRC_DRV.h>
-#include <nvs_flash.h>
+//#include <nvs_flash.h>
 
 namespace esphome {
 namespace somfy {
