@@ -191,32 +191,7 @@ public:
                 delay(1000);
             }
 
-            if (xpos == 61)
-            {
-                ESP_LOGD("SomfyCover.h", "Clearing all values in Preference library.");
 
-                nvs_flash_erase(); // erase the NVS partition and...
-                nvs_flash_init(); // initialize the NVS partition.
-
-                Preferences preferences;
-                bool success = preferences.begin("SomfyCover", false);
-                if (success) {
-                    ESP_LOGW("SomfyCover.h", "Begin success");
-                }
-                else {
-                    ESP_LOGW("SomfyCover.h", "Begin fail");
-                }
-
-                int ret = preferences.putUShort("test", 20);
-                if (ret == 0) {
-                    ESP_LOGW("SomfyCover.h", "Error while test-writing.");
-                }
-                else {
-                    ESP_LOGW("SomfyCover.h", "Memory write success.");
-                }
-
-                preferences.end();
-            }
 
             // Debug commands
             if (xpos == 90) {
