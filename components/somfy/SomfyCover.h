@@ -65,13 +65,10 @@ public:
     }
   }
 
-  void program() {
-    ESP_LOGI("somfy", "PROG");
-    sendCC1101Command(Command::Prog);
-  }
+  
 };
 
-class SomfyESPRemote : public Component {
+class SomfyRemote : public Component {
 public:
   std::vector<esphome::cover::Cover *> covers;
 
