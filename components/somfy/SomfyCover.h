@@ -20,7 +20,7 @@ private:
   EEPROMRollingCodeStorage *storage;
 
 public:
-  SomfyESPCover(const char *name, const char *key, uint32_t remoteCode)
+  SomfyRemote(const char *name, const char *key, uint32_t remoteCode)
       : Cover() {
     storage = new EEPROMRollingCodeStorage(name, key);
     remote = new SomfyRemote(EMITTER_GPIO, remoteCode, storage);
