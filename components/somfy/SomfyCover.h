@@ -9,14 +9,12 @@
 
 #define CC1101_FREQUENCY 433.42
 
-#define COVER_OPEN 1.0f
-#define COVER_CLOSED 0.0f
 
 namespace esphome {
 namespace somfy {
 
 
-class SomfyESPCover : public Cover {
+class SomfyCover : public Component, public cover::Cover {
 private:
   SomfyRemote *remote;
   EEPROMRollingCodeStorage *storage;
