@@ -4,7 +4,7 @@
 #include "esphome/components/cover/cover.h"
 #include "SomfyRts.h"
 #include <Arduino.h>
-#include <Preferences.h>
+//#include <Preferences.h>
 #include <ELECHOUSE_CC1101_SRC_DRV.h>
 //#include <nvs_flash.h>
 
@@ -68,18 +68,6 @@ public:
         ELECHOUSE_cc1101.setMHZ(433.42);
     }
 
-    // delete rolling code . 0....n
-    void delete_code()
-    {
-        Preferences preferences;
-        preferences.begin("SomfyCover", false);
-        const char* path = rtsDevice->getConfigFilename().c_str();
-
-        preferences.remove(path);
-
-        ////ESP_LOGD("SomfyCover.h", "Deleted remote %i", remoteId);
-        preferences.end();
-    }
 
     cover::CoverTraits get_traits() override
     {
@@ -187,7 +175,7 @@ public:
             if (xpos == 21)
             {
                 //ESP_LOGD("SomfyCover.h", "delete file");
-                delete_code();
+                //delete_code();
                 delay(1000);
             }
 
