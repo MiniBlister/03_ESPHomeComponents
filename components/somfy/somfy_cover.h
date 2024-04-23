@@ -1,28 +1,24 @@
 #include "esphome.h"
-
-#include <EEPROM.h>
-#include <EEPROMRollingCodeStorage.h>
 #include <ELECHOUSE_CC1101_SRC_DRV.h>
+#include <NVSRollingCodeStorage.h>
 #include <SomfyRemote.h>
 
 #define EMITTER_GPIO 2
 
 #define CC1101_FREQUENCY 433.42
 
+#define COVER_OPEN 1.0f
+#define COVER_CLOSED 0.0f
 
-namespace esphome {
-namespace somfy {
-
-
-class SomfyCover : public Component, public cover::Cover {
+class SomfyESPCover : public Cover {
 private:
   SomfyRemote *remote;
-  EEPROMRollingCodeStorage *storage;
+  NVSRollingCodeStorage *storage;
 
 public:
-  SomfyRemote(const char *name, const char *key, uint32_t remoteCode)
+  SomfyESPCover(const char *name, const char *key, uint32_t remoteCode)
       : Cover() {
-    storage = new EEPROMRollingCodeStorage(name, key);
+    storage = new NVSRollingCodeStorage(name, key);
     remote = new SomfyRemote(EMITTER_GPIO, remoteCode, storage);
   }
 
@@ -31,7 +27,6 @@ public:
     traits.set_is_assumed_state(true);
     traits.set_supports_position(false);
     traits.set_supports_tilt(false);
-    traits.set_supports_stop(true);
     return traits;
   }
 
@@ -65,10 +60,13 @@ public:
     }
   }
 
-  
+  void program() {
+    ESP_LOGI("somfy", "PROG");
+    sendCC1101Command(Command::Prog);
+  }
 };
 
-class SomfyRemote : public Component {
+class SomfyESPRemote : public Component {
 public:
   std::vector<esphome::cover::Cover *> covers;
 
@@ -86,6 +84,3 @@ public:
     covers.push_back(cover);
   }
 };
-
-}
-}
