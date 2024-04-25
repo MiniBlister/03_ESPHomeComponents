@@ -1,6 +1,6 @@
 #include "esphome.h"
 #include <ELECHOUSE_CC1101_SRC_DRV.h>
-#include <NVSRollingCodeStorage.h>
+#include <EEPROMRollingCodeStorage.h>
 #include <SomfyRemote.h>
 
 #define EMITTER_GPIO 2
@@ -13,12 +13,12 @@
 class SomfyESPCover : public Cover {
 private:
   SomfyRemote *remote;
-  NVSRollingCodeStorage *storage;
+  EEPROMRollingCodeStorage *storage;
 
 public:
-  SomfyESPCover(const char *name, const char *key, uint32_t remoteCode)
+  SomfyESPCover(const char *name, const char *key, uint32_t remoteCode, int address)
       : Cover() {
-    storage = new NVSRollingCodeStorage(name, key);
+    storage = new NVSRollingCodeStorage(address);
     remote = new SomfyRemote(EMITTER_GPIO, remoteCode, storage);
   }
 
@@ -79,8 +79,8 @@ public:
     ELECHOUSE_cc1101.setMHZ(CC1101_FREQUENCY);
   }
 
-  void add_cover(const char *name, const char *key, uint32_t remoteCode) {
-    auto cover = new SomfyESPCover(name, key, remoteCode);
+  void add_cover(const char *name, const char *key, uint32_t remoteCode, int address) {
+    auto cover = new SomfyESPCover(name, key, remoteCode, address);
     covers.push_back(cover);
   }
 };
